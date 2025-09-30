@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import joblib
 import numpy as np
 import pandas as pd
+from ml_training.nn_model import NNModel  # noqa: F401
 
 
 model = joblib.load("trained_model/neural_network.pkl")
