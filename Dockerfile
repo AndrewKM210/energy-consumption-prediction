@@ -15,11 +15,10 @@ RUN python -m pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt
 
 # copy app, model and model definition
-COPY api/main.py ./api/main.py
-COPY ml_training/nn_model.py ./ml_training/nn_model.py
-COPY trained_model/neural_network.pkl trained_model/neural_network.pkl
-COPY trained_model/countries.pkl trained_model/countries.pkl
-COPY trained_model/country_encoder.pkl trained_model/country_encoder.pkl
+COPY api/main_xgb.py ./api/main_xgb.py
+COPY trained_models/xgb_model.pkl ./trained_models/xgb_model.pkl
+COPY trained_models/countries.pkl ./trained_models/countries.pkl
+COPY trained_models/country_encoder.pkl ./trained_models/country_encoder.pkl
 
 EXPOSE 8080
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "api.main_xgb:app", "--host", "0.0.0.0", "--port", "8080"]
