@@ -37,23 +37,25 @@ with open('ml_training/databricks_data.json') as f:
     databricks_data = json.load(f)
 mlflow.set_tracking_uri("databricks")
 mlflow.set_experiment(f"/Users/{databricks_data['user']}/{databricks_data['experiment']}")
-run_id = databricks_data["run_id"]
+nn_run_id = databricks_data["nn_run_id"]
+xgb_run_id = databricks_data["xgb_run_id"]
 
-# Load prediction model and encoders/scalers (download from Databricks if needed)
-print("Loading model and encoders/scalers")
-model_dir = "trained_model/"
-model_name = "neural_network"
-download_artifact(run_id, "neural_network.pt", model_dir)
-download_artifact(run_id, "country_encoder.pkl", model_dir)
-params = unpickle_artifact(run_id, "parameters.pkl", model_dir)
+# Load prediction models and encoders/scalers (download from Databricks if needed)
+print("Loading models and encoders/scalers")
+model_dir = "trained_models/"
+xgb_model = mlflow.xgboost.load_model(f"runs:/{xgb_run_id}/xgboost_regressor")
+joblib.dump(xgb_model, model_dir + "xgb_model.pkl")
+download_artifact(nn_run_id, "neural_network.pt", model_dir)
+download_artifact(nn_run_id, "country_encoder.pkl", model_dir)
+params = unpickle_artifact(nn_run_id, "parameters.pkl", model_dir)
 model = NNModel(hidden_sizes=params["hidden_sizes"], lr=params["lr"], dropout=params["dropout"], n_countries=params["n_countries"], embed_dim=params["embed_dim"])
 model.net.load_state_dict(torch.load(model_dir + "neural_network.pt"))
-output_scaler = unpickle_artifact(run_id, "output_scaler.pkl", model_dir)
-year_scaler = unpickle_artifact(run_id, "year_scaler.pkl", model_dir)
+output_scaler = unpickle_artifact(nn_run_id, "output_scaler.pkl", model_dir)
+year_scaler = unpickle_artifact(nn_run_id, "year_scaler.pkl", model_dir)
 model.year_scaler = year_scaler
 model.output_scaler = output_scaler
 
-# Save reconstructed model
+# Save reconstructed NN model
 dst_path = model_dir + "neural_network.pkl"
 print("Saving reconstructed neural network to", dst_path)
 joblib.dump(model, dst_path)
