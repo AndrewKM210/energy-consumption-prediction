@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import joblib
 import numpy as np
 import pandas as pd
+import os
+
+
+API_SECRET = os.environ.get("ENERGY_API_SECRET")
 
 
 # Load model and country encoder
@@ -29,7 +33,9 @@ app.add_middleware(
 
 # Returns the predicted TOE_HAB consumption of a country for a specified year
 @app.get("/predict")
-def predict(country: str, year: int):
+def predict(country: str, year: int, authorization: str = Header(None)):
+    if authorization != f"Bearer {API_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
     c = country_encoder.transform(np.array([country]))[0]
     X = pd.DataFrame.from_dict({"country_encoded": [c], "year": [year]}).astype("float32")
     return {"country": country, "year": year, "TOE_HAB": float(model.predict(X))}
@@ -37,7 +43,9 @@ def predict(country: str, year: int):
 
 # Returns the predicted TOE_HAB consumption of all EU countries for a specified year
 @app.get("/predict-year")
-def predict_year(year: int):
+def predict_year(year: int, authorization: str = Header(None)):
+    if authorization != f"Bearer {API_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
     predictions = []
     for country in countries:
         c = country_encoder.transform(np.array([country]))[0]
@@ -47,5 +55,7 @@ def predict_year(year: int):
 
 
 @app.get("/health")
-def health():
+def health(authorization: str = Header(None)):
+    if authorization != f"Bearer {API_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
     return {"status": "ok"}

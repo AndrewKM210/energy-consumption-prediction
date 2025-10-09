@@ -3,21 +3,10 @@ import requests
 import pandas as pd
 import plotly.express as px
 import pycountry
-import google.auth.transport.requests
-from google.oauth2 import id_token
 
 
 API_URL = st.secrets.api_url
-
-
-@st.cache_data(ttl=3300)  # 
-def get_gcp_token() -> str:
-    """ 
-        Use Cloud Run metadata identity to return identity token. 
-        Use streamlit to cache token for 55 minutes, minimizes GCP requests.
-    """
-    auth_req = google.auth.transport.requests.Request()
-    return id_token.fetch_id_token(auth_req, API_URL)
+API_SECRET = st.secrets.api_secret
 
 
 # Contains the ISO-2 values for all countries
@@ -29,11 +18,8 @@ st.title("EU Energy Consumption Forecasts")
 # Year selector
 year = st.slider("Select Year", min_value=2000, max_value=2030, value=2025)
 
-# Get GCP identity token
-token = get_gcp_token()
-
 # Get prediction from FastAPI backend
-headers = {"Authorization": f"Bearer {token}"}
+headers = {"Authorization": f"Bearer {API_SECRET}"}
 response = requests.get(f"{API_URL}", params={"year": year}, headers=headers)
 
 # If reponse is okay, parse response and convert countries from ISO-2 to ISO-3 values
