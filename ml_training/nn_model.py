@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.preprocessing import StandardScaler
-import mlflow.pyfunc
 import numpy as np
 import pandas as pd
 
@@ -47,7 +46,7 @@ class Net(nn.Module):
         return self.fc_layers(x)
 
 
-class NNModel(mlflow.pyfunc.PythonModel):
+class NNModel():
     def __init__(
         self, hidden_sizes=(32, 32), lr=0.01, dropout=0.2, n_countries=None, embed_dim=4
     ):
@@ -112,17 +111,11 @@ class NNModel(mlflow.pyfunc.PythonModel):
             if test_frac > 0:
                 y_hat = self.net(X_test)
                 val_loss = self.mse(y_hat, y_test).item()
-                if mlflow_run:
-                    mlflow.log_metrics(
-                        {"train_mse": train_loss, "test_mse": val_loss}, step=epoch + 1
-                    )
                 if (epoch + 1) % 10 == 0 and verbose:
                     print(
                         f"Epoch {epoch+1}, Train loss: {train_loss:.4f}, Test loss: {val_loss:.4f}"
                     )
             else:
-                if mlflow_run:
-                    mlflow.log_metric("train_mse", train_loss, step=epoch + 1)
                 if (epoch + 1) % 10 == 0 and verbose:
                     print(f"Epoch {epoch+1}, Train loss: {train_loss:.4f}")
 
