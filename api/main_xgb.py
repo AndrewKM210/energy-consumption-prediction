@@ -53,6 +53,15 @@ def predict_year(year: int, authorization: str = Header(None)):
         predictions.append({"country": country, "year": year, "TOE_HAB": float(model.predict(X))})
     return predictions
 
+@app.get("/predict-country")
+def predict_country(country: str, authorization: str = Header(None)):
+    if authorization != f"Bearer {API_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    y = range(2025,2035)
+    c = [country_encoder.transform(np.array([country]))[0]]*len(y)
+    df = pd.DataFrame({"country_encoded": c, "year": y})
+    print(model.predict(df))
+    return "OK"
 
 @app.get("/health")
 def health(authorization: str = Header(None)):
