@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 import plotly.express as px
 import pycountry
-import matplotlib.pyplot as plt
 import joblib
 
 
