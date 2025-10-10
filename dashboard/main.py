@@ -58,13 +58,14 @@ def on_change_slider():
 
 # Set streamlit title
 st.title("EU Energy Consumption Forecasts")
+st.subheader("First prediction may be slow due to cold booting the API")
 
 # Year selector
 st.slider("Select Year", min_value=2025, max_value=2050, value=2025, on_change=on_change_slider, key="slider")
 
 # Obtain predictions from session state or initialize with prepared predictions
 if "preds_year" not in st.session_state:
-    print("Reading for first time")
+    print("Reading year prediction for first time")
     st.session_state["preds_year"] = pd.read_csv("dashboard/prediction_2025.csv")
 df = st.session_state.preds_year
 
@@ -79,10 +80,11 @@ if not df.empty:
         color_continuous_scale="Viridis",
         title=f"Predicted Energy Consumption in {st.session_state.slider}",
         scope="europe",
+        labels={"country": "Country", "TOE_HAB": "TOE per capita"}
     )
     fig.update_layout(
         autosize=True,
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},  # remove empty borders
+        margin={"r": 0, "t": 30, "l": 0, "b": 0},  # remove empty borders
     )
 
     st.plotly_chart(fig, use_container_width=True, key="map2")
@@ -92,18 +94,16 @@ st.selectbox("Select country", COUNTRIES_DS, index=10, on_change=on_change_selec
 
 # Obtain predictions from session state or initialize with prepared predictions
 if "preds_country" not in st.session_state:
-    print("Reading for first time")
+    print("Reading country prediction for first time")
     st.session_state["preds_country"] = pd.read_csv("dashboard/prediction_ES.csv")
 df = st.session_state.preds_country
+country =  pycountry.countries.get(alpha_2=st.session_state.selectbox).name
 
 # Plot forecast for country
 if not df.empty:
-    fig = plt.figure()
-    plt.plot(df["year"], df["TOE_HAB"])
-    # fig.update_layout(
-    #     autosize=True,
-    #     margin={"r": 0, "t": 0, "l": 0, "b": 0},  # remove empty borders
-    # )
-
+    fig = px.line(df, x="year", y="TOE_HAB", markers=True,
+                  labels={"year": "Year", "TOE_HAB": "TOE per capita"},
+                  title=f"Predicted energy consumption in the next 10 years for {country}")
     st.plotly_chart(fig, use_container_width=True, key="map1")
-    # st.pyplot(plt.gcf())
+
+print("Dashboard updated")
