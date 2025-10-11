@@ -1,7 +1,7 @@
 # UE Energy Consumption Prediction: End-to-End Machine Learning Deployment Showcase
 
 This project demonstrates the **full lifecycle of a machine learning system**, from data processing to public deployment.
-The goal is **not** to build a production-ready predictor or a polished app, but to show **practical integration skills** across the modern ML engineering stack. The demo of the prediction is publically available [here](https://andrewkm-ecp.streamlit.app/).
+The goal is **not** to build a production-ready predictor or a polished app, but to show **practical integration skills** across the modern ML engineering stack. The demo of the prediction is publically available [here](https://andrewkm-ecp.streamlit.app/). Visualization of the dataset and predictions are also shown in a Tableau story [here](https://public.tableau.com/app/profile/andrew.keon.mackay.parrott/viz/EnergyConsumptionUE/Story1).
 
 ---
 
@@ -15,6 +15,7 @@ This repository contains all the components of an end-to-end machine learning pr
 4. **Containerization** → reproducible build with **Docker**.
 5. **Cloud Deployment** → scalable **Google Cloud Run** service.
 6. **Frontend Integration** → interactive **Streamlit dashboard** consuming the public API.
+7. **Visualization** → Tableau story
 
 This pipeline demonstrates a full MLOps-style workflow: **data → model → API → cloud → user**.
 
@@ -49,6 +50,7 @@ All communication between components is handled through clean API interfaces and
 | **Deployment**      | Google Cloud Run                         |
 | **Frontend**        | Streamlit Community Cloud                |
 | **Authentication**  | Custom header secret (for demo security) |
+| **Visualization**   | Tableau                                  |
 
 ---
 
@@ -217,6 +219,12 @@ streamlit run dashboard/main.py
 ├── requirements_api.txt        # Library dependancies for the API
 |
 ├── requirements.txt            # Library dependancies for the dashboard
+|
+├── tableau/
+│   ├── clean_data.ipynb        # Cleans the data of the estat_sdg_07_11_en.csv dataset
+│   ├── toe_hab_pred.csv.csv    # Contains the predicted energy consumption for the next 25 years
+│   ├── toe_hab.csv             # Contains the cleaned estat_sdg_07_11_en.csv dataset
+│   ├── clean_data.ipynb        # Predicts the energy consumption over the next 25 years 
 |
 ├── trained_models/             # Will contain trained models
 │   ├── countries.pkl           # List of supported countries
