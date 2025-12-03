@@ -3,7 +3,10 @@
 This project demonstrates the **full lifecycle of a machine learning system**, from data processing to public deployment.
 The goal is **not** to build a production-ready predictor or a polished app, but to show **practical integration skills** across the modern ML engineering stack. The demo of the prediction is publically available [here](https://andrewkm-ecp.streamlit.app/). Visualization of the dataset and predictions are also shown in a Tableau story [here](https://public.tableau.com/app/profile/andrew.keon.mackay.parrott/viz/EnergyConsumptionUE/Story1).
 
-![Streamlit dashboard](assets/dashboard.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dashboard_dark.png">
+  <img src="assets/dashboard_light.png" alt="Streamlit dashboard.">
+</picture>
 
 ---
 
