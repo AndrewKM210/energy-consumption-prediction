@@ -1,5 +1,22 @@
 # UE Energy Consumption Prediction: End-to-End Machine Learning Deployment Showcase
 
+<p align="center">
+  <img alt="Python 3.10.0" src="https://img.shields.io/badge/Python-3.10.0-3776AB.svg?style=flat-square&logo=python&logoColor=white">
+  <img alt="Databricks" src="https://img.shields.io/badge/Databricks-FF3621.svg?style=flat-square&logo=databricks&logoColor=white">
+  <img alt="MLflow" src="https://img.shields.io/badge/MLflow-000000.svg?style=flat-square&logo=mlflow&logoColor=white">
+  <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-EE4C2C.svg?style=flat-square&logo=pytorch&logoColor=white">
+  <img alt="Scikit-learn" src="https://img.shields.io/badge/scikit--learn-F7931E.svg?style=flat-square&logo=scikit-learn&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-005571.svg?style=flat-square&logo=fastapi&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED.svg?style=flat-square&logo=docker&logoColor=white">
+  <img alt="GCP" src="https://img.shields.io/badge/Google_Cloud-4285F4.svg?style=flat-square&logo=google-cloud&logoColor=white">
+  <a href="https://andrewkm-ecp.streamlit.app/">
+    <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-FF4B4B.svg?style=flat-square&logo=streamlit&logoColor=white">
+  </a>
+  <a href="https://public.tableau.com/app/profile/andrew.keon.mackay.parrott/viz/EnergyConsumptionUE/Story1">
+    <img alt="Tableau" src="https://img.shields.io/badge/Tableau-E97627.svg?style=flat-square&logo=tableau&logoColor=white">
+  </a>
+</p>
+
 This project demonstrates the **full lifecycle of a machine learning system**, from data processing to public deployment.
 The goal is **not** to build a production-ready predictor or a polished app, but to show **practical integration skills** across the modern ML engineering stack. The demo of the prediction is publically available [here](https://andrewkm-ecp.streamlit.app/). Visualization of the dataset and predictions are also shown in a Tableau story [here](https://public.tableau.com/app/profile/andrew.keon.mackay.parrott/viz/EnergyConsumptionUE/Story1).
 
